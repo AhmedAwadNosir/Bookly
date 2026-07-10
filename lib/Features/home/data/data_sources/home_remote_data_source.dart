@@ -2,6 +2,7 @@ import 'package:bookly/Features/home/data/models/book_modal/book_modal.dart';
 import 'package:bookly/Features/home/domain/entities/book_entity.dart';
 import 'package:bookly/core/utils/apiServecies/api_services.dart';
 import 'package:bookly/core/utils/app_constants.dart';
+import 'package:bookly/core/utils/functions/cach_books.dart';
 
 abstract class HomeRemoteDataSource {
   Future<List<BookEntity>> fetchFeaturedBooks();
@@ -17,8 +18,8 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
     var data = await _apiServices.get(
         endPoint:
             "volumes?filter=free-ebooks&q=programing&key=${AppConstants.apiKey}");
-
     List<BookEntity> books = getBooks(data);
+    cahcBooks(books: books, bookName: AppConstants.kFeaturedBooksBox);
     return books;
   }
 
@@ -29,6 +30,7 @@ class HomeRemoteDataSourceImpl extends HomeRemoteDataSource {
             "volumes?q=programing&filter=free-ebooks&orderBy=newest&key=${AppConstants.apiKey}");
 
     List<BookEntity> books = getBooks(data);
+    cahcBooks(books: books, bookName: AppConstants.knewestBooksBox);
     return books;
   }
 
